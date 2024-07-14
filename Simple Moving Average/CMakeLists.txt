@@ -1,7 +1,11 @@
-﻿
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.20)
+project(SMA)
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (CMakeTarget "main.cpp" )
+set(CMAKE_CXX_STANDARD 17)
 
-# TODO: Добавьте тесты и целевые объекты, если это необходимо.
+set(RND_LIB rand_gen/impl/rand_impl.cpp)
+add_library(rand_gen ${RND_LIB})
+
+
+add_executable(sma main.cpp)
+target_link_libraries(sma rand_gen)
