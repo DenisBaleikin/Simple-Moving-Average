@@ -26,4 +26,27 @@ namespace alg {
         }
         return result;
     }
+
+    template<typename RealTypeSeq = std::list<double>>
+    auto fSMA(const RealTypeSeq& seq, size_t win_size) {
+        using RealType = RealTypeSeq::value_type;
+        std::list<RealType> result;
+        
+        auto avg = [](const auto& first_it, const auto& last_it) {
+            RealType res{};
+            for (auto it = first_it; it != std::next(last_it); ++it) {
+                res += *it;
+            }
+            return res / std::distance(first_it, last_it);
+        };
+
+        for (auto first = seq.begin(), last = std::next(first, win_size - 1); last != seq.end(); ++first, ++last) {
+            if (first == seq.begin()) {
+                result.push_back(avg(first, last));
+                continue;
+            }
+            result.push_back(result.back() - *std::prev(first) / win_size + *last / win_size);
+        }
+        return result;
+    }
 }
